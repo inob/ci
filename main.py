@@ -43,6 +43,18 @@ class Choose(QDialog):
         super(Choose,self).__init__()
         loadUi("Choose.ui",self)
         self.buttonFerma.clicked.connect(self.goFerma)
+        self.buttonSV.clicked.connect(self.goSV)
+        self.buttonMillera.clicked.connect(self.goMR)
+    
+    def goSV(self):
+        s_shtrassena = SV()
+        widget.addWidget(s_shtrassena)
+        widget.setCurrentIndex(widget.currentIndex()+1)
+
+    def goMR(self):
+        m_rabina = Miller()
+        widget.addWidget(m_rabina)
+        widget.setCurrentIndex(widget.currentIndex()+1)
 
     def goFerma(self):
         ferma = Ferma()
@@ -110,26 +122,43 @@ class Ferma(QDialog):
 
 class SV(QDialog):
     def __init__(self):
-        super(Ferma,self).__init__()
-        loadUi("Ferma.ui",self)
+        super(SV,self).__init__()
+        loadUi("s_shtrassen.ui",self)
         widget.setFixedWidth(707)
         widget.setFixedHeight(735)
-        text = read_text('MR_Theory.html')
+        text = read_text('Shtrassen_Theory.html')
         label_text = QLabel(text)
         label_text.setWordWrap(True)
         self.scrollArea.setWidget(label_text)
+        self.reshit.clicked.connect(self.solve)
+        self.ButtonGenerated.clicked.connect(self.GenerateValue)
+        self.check_shtrassen.clicked.connect(self.checkValue)
+
+    def solve(self): pass
+
+    def GenerateValue(self): pass
+
+    def checkValue(self): pass
 
 class Miller(QDialog):
     def __init__(self):
-        super(Ferma,self).__init__()
-        loadUi("Ferma.ui",self)
+        super(Miller,self).__init__()
+        loadUi("Miller.ui",self)
         widget.setFixedWidth(707)
         widget.setFixedHeight(735)
-        text = read_text('SV_Theory.html')
+        text = read_text('Miller_Theory.html')
         label_text = QLabel(text)
         label_text.setWordWrap(True)
         self.scrollArea.setWidget(label_text)
+        self.reshit.clicked.connect(self.solve)
+        self.ButtonGenerated.clicked.connect(self.GenerateValue)
+        self.check_shtrassen.clicked.connect(self.checkValue)
 
+    def solve(self): pass
+
+    def GenerateValue(self): pass
+
+    def checkValue(self): pass
 class Registr(QDialog):
     def __init__(self):
         super(Registr,self).__init__()
