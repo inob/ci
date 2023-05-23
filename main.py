@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QDialog, QApplication
 from PyQt5.uic import loadUi
 import requests
 from bs4 import BeautifulSoup
-from util import read_text, primfacs, is_prime
+from util import read_text, primfacs, is_prime, get_uneven
 from PyQt5.QtWidgets import * 
 from PyQt5.QtGui import *
 from PyQt5 import QtCore
@@ -60,6 +60,30 @@ class Ferma(QDialog):
         label_text.setWordWrap(True)
         self.scrollArea.setWidget(label_text)
         self.pushButton.clicked.connect(self.answer)
+        self.pushButtonDaOno.clicked.connect(self.generated_num)
+        self.checkAns.clicked.connect(self.check)
+
+    def generated_num(self):
+        num = get_uneven(50,270)
+        numA = 2
+        self.chisloP.setText(str(num))
+        for i in range(3, num):
+            if gcd(i, num) == 1:
+                self.chisloA.setText(str(i))
+                numA = i
+                break
+    
+    def check(self):
+        answ = int(self.lineEdit_3.text())
+        p = int(self.chisloP.text())
+        a = int(self.chisloA.text())
+        cc = (a**(p-1))%p
+        if  answ == cc:
+            self.result.setText("Верно")
+        else:
+            self.result.setText("Неверно")
+
+        
 
     def answer(self):
         n = int(self.lineEdit.text())
@@ -81,7 +105,7 @@ class Ferma(QDialog):
                                          <p> Число {n+1} - <b>составное.</b>""")
                 self.label_5.setWordWrap(True)
         else:
-            label_5 = QLabel("Числа не взаимно простые.")
+            self.label_5.setText(f"""<p> Числа не взаимно простые.</p>""")
 
 
 class SV(QDialog):

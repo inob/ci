@@ -158,3 +158,10 @@ def primfacs(n):
    if n > 1:
        primfac.append(n)
    return primfac
+
+def get_uneven(x,y):
+    num = randint(x,y)
+    if num%2==1: return num
+    else: 
+        num+=1
+        return num
