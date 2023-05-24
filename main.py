@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QDialog, QApplication
 from PyQt5.uic import loadUi
 import requests
 from bs4 import BeautifulSoup
-from util import read_text, primfacs, is_prime, get_uneven, get_miller, test_Rabin_Miller
+from util import read_text, primfacs, is_prime, get_uneven, get_miller, test_Rabin_Miller, s_s
 from PyQt5.QtWidgets import * 
 from PyQt5.QtGui import *
 from PyQt5 import QtCore
@@ -152,9 +152,15 @@ class SV(QDialog):
         widget.setFixedHeight(700)
 
     def solve(self): 
-        p = int(self.chisloP.text())
-        a = int(self.chisloA.text())
-        
+        p = int(self.lineEdit.text())
+        a = int(self.lineEdit_2.text())
+        nod, jac, ans, otvet = s_s(p,a)
+        if "прост" in otvet: otvet =  " псевдопростым"
+        else: otvet = " составным"
+        self.label_5.setText(f"""<p>НОД введенных чисел равен {nod}</p>
+                                <p>({a}/{p}) = {jac}</p>
+                                <p>{a}<sup>({p}-1)/2</sup> &equiv; {ans}(mod {p})</p>
+                                <p>Следовательно, число является {otvet}</p>""")
 
     def GenerateValue(self):
         num = get_uneven(50,270)
@@ -166,7 +172,16 @@ class SV(QDialog):
                 numA = i
                 break
 
-    def checkValue(self): pass
+    def checkValue(self): 
+        p = int(self.chisloP.text())
+        a = int(self.chisloA.text())
+        nod, jac, ans, otvet = s_s(p,a)
+        ansS = int(self.lineEdit_3.text())
+        ansR = int(self.lineEdit_4.text())
+        if ansS != jac or ansR != ans: self.result.setText("Неверно.")
+        else: self.result.setText("Верно.")
+        
+
 
 class Miller(QDialog):
     def __init__(self):

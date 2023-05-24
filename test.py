@@ -1,54 +1,93 @@
-import timeit
-import random
 
+def s_s(m, a):
+    exit = 1
+    text = ""
+    while (exit != '0'):
 
-def fast_pow(base, degree, module):
-    degree = bin(degree)[2:]
-    r = 1
+        first = a
+        second = m
+        while first != 0 and second != 0:
+            if first > second:
+                first %= second
+            else:
+                second %= first
+        nod = first + second
+        text+=f'НОД введенных чисел равен {nod} \n'
+        print('НОД введенных чисел равен',nod)
 
-    for i in range(len(degree) - 1, -1, -1):
-        r = (r * base ** int(degree[i])) % module
-        base = (base ** 2) % module
-    return r
+        if (nod == 1):
+            s = 0           
+            flag = 0        
+            if (a == 0):    
+                answ = 0    
+                flag = 1   
 
+            else:
+                x = a       
+                y = m       
+                s = 1
+                if (a<0):                   
+                    x = -a                 
+                    s = (-1)**((m-1)//2)   
 
-def test_Rabin_Miller(n, k):
-    if n == 2 or n == 3:
-        return True
-    if n < 2 or n % 2 == 0:
-        return False
+                while (flag == 0):
+                    t = 0   
+                    c = x % y               
+                    x = c                   
+                    if (x == 0):
+                        answ = 1            
+                        flag = 1            
+                    else:
+                        while (x%2 == 0):   
+                            x = x//2        
+                            t = t+1
+                        if (t%2==1):       
+                            s = s*(-1)**((y**2-1)//8)   
+                                                        
+                        if (x>1):
+                            s = s * ((-1) **(((x - 1) // 2)*((y - 1) // 2)))
+                            c = x
+                            x = y
+                            y = c
+                        else:           
+                            flag = 1    
+                answ = s
 
-    d = n - 1
-    r = 0
-    while d % 2 == 0:
-        d //= 2
-        r += 1
-    print('d = {0}'.format(d))
-    print('s = {0}'.format(r))
-    print('---'*20)
+            text += f"({a}/{m}) = {answ}\n"
+            print('(',a,'/',m,') = ',answ) 
 
-    for i in range(k):
-        a = random.randint(2, int(n/2))
-        x = pow(a, d, n)
-        print('a = {0}'.format(a))
-        print('x = {0}'.format(x))
+        if (nod == 1):
+            deg = int((m-1)//2 )    
+            numdeg = [1]            
+            adeg = [a]              
+            res = 1                 
+                                    
 
-        if x == 1 or x == n - 1:
-            continue
+            i = 1
+            while ((numdeg[i-1])*2<deg):        
+                numdeg.append(numdeg[i-1]*2)                  
+                adeg.append((adeg[i - 1] * adeg[i - 1]) % m)   
+                i = i + 1
 
-        for j in range(1, r):
-            x = fast_pow(x, 2, n)
-            #if x != 0:print('x = {0}'.format(x))
-            if x == 1:return False
-            if x == n - 1:return True
-        return False
-    return True
+            i = i - 1
+            while (deg>0):                      
+                if (deg >= numdeg[i]):
+                    deg = deg - numdeg[i]
+                    res = (res * adeg[i]) % m
+                i = i - 1
 
+            if (res > int((m-1)//2)):          
+                res = res - m
+            text += f"<p>{a}<sup>({m}-1)/2</sup> &equiv; {res}(mod {m})</p>\n"
+            print(a,'^((',m,'-1)/2) = ',res,' mod ',m)
+            if (res == answ):
+                text+=f"Число {m} является псевдопростым по основанию {a} (по критерию Эйлера)."
+                print('Число ', m,' является псевдопростым по основанию ',a,' (по критерию Эйлера).')
+            else:
+                text+=f"Число {m} является составным."
+                print('Число ', m, ' является составным.')
 
-n, k = int(input("Введите n: ")), int(input("Введите k: "))
-result = test_Rabin_Miller(n, k)
-
-if result == True:
-    print("Число {0} вероятно простое".format(n))
-else:
-    print("Число {0} составное".format(n))
+        return text
+    
+x = s_s(69,4)
+print(x)
