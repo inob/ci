@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QDialog, QApplication
 from PyQt5.uic import loadUi
 import requests
 from bs4 import BeautifulSoup
-from util import read_text, primfacs, is_prime, get_uneven, get_miller
+from util import read_text, primfacs, is_prime, get_uneven, get_miller, test_Rabin_Miller
 from PyQt5.QtWidgets import * 
 from PyQt5.QtGui import *
 from PyQt5 import QtCore
@@ -151,9 +151,20 @@ class SV(QDialog):
         widget.setFixedWidth(600)
         widget.setFixedHeight(700)
 
-    def solve(self): pass
+    def solve(self): 
+        p = int(self.chisloP.text())
+        a = int(self.chisloA.text())
+        
 
-    def GenerateValue(self): pass
+    def GenerateValue(self):
+        num = get_uneven(50,270)
+        numA = 2
+        self.chisloP.setText(str(num))
+        for i in range(3, num):
+            if gcd(i, num) == 1:
+                self.chisloA.setText(str(i))
+                numA = i
+                break
 
     def checkValue(self): pass
 
@@ -181,11 +192,57 @@ class Miller(QDialog):
 
 
     def solve(self):
-        get_miller(81)
+        p = int(self.lineEdit.text())
+        a = int(self.lineEdit_2.text())
+        if p%2==0: 
+            self.label_5.setText(f"<p>Число должно быть нечетным</p>")
+            return 0
+            
+        ans,text,trash = test_Rabin_Miller(p, a)
+        if 2 < a < p - 2:
+            temp = primfacs(p-1)
+            text_2 = ""
+            for i in temp: text_2+=f"{int(i)}, "
+            gotText = f"""<p>Число {p-1} разложим как {text_2[:-2]}</p>
+                            <p>Следовательно:</p>
+                                        {text}"""
 
-    def GenerateValue(self): pass
+            if ans: 
+                self.label_5.setText(f"{gotText}<p>Число, вероятно всего, простое.</p>")
+                self.label_5.setWordWrap(True)
+            else: 
+                self.label_5.setText(f"{gotText}<p>Число составное.</p>")
+                self.label_5.setWordWrap(True)
+            
+                
+            
 
-    def checkValue(self): pass
+    def GenerateValue(self): 
+        num = get_uneven(50,270)
+        numA = 2
+        self.chisloP.setText(str(num))
+        for i in range(3, num):
+            if gcd(i, num) == 1:
+                self.chisloA.setText(str(i))
+                numA = i
+                break
+
+    def checkValue(self): 
+        p = int(self.chisloP.text())
+        a = int(self.chisloA.text())
+        x,y,ans = test_Rabin_Miller(p,a)
+        d,r = ans
+
+        ansR = int(self.lineEdit_3.text())
+        ansD = int(self.lineEdit_4.text())
+
+        if ansR != r or ansD != d:
+            self.result1.setText(f"Неверно !")
+            self.result1.setWordWrap(True)
+        else:
+            self.result1.setText(f"Верно !")
+            self.result1.setWordWrap(True)
+
 class Registr(QDialog):
     def __init__(self):
         super(Registr,self).__init__()

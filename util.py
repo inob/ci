@@ -177,3 +177,49 @@ def get_miller(x):
         print(i)
         if int(i)**got[i] < mini : mini = int(i)
     print(mini)
+
+def fast_pow(base, degree, module):
+    degree = bin(degree)[2:]
+    r = 1
+
+    for i in range(len(degree) - 1, -1, -1):
+        r = (r * base ** int(degree[i])) % module
+        base = (base ** 2) % module
+    return r
+
+
+def test_Rabin_Miller(n, k):
+    text = ""
+    if n == 2 or n == 3:
+        return [True, text,[d,r]]
+    if n < 2 or n % 2 == 0:
+        return [False,text,[d,r]]
+
+    d = n - 1
+    r = 0
+    while d % 2 == 0:
+        d //= 2
+        r += 1
+    text+=f"<p>d = {d}, r = {r}</p>\n"
+    print('d = {0}'.format(d))
+    print('s = {0}'.format(r))
+    print('---'*20)
+
+    for i in range(k):
+        a = randint(2, int(n/2))
+        x = pow(a, d, n)
+        text+=f"<p>a = {a}, x = {x}</p>"
+        print('a = {0}'.format(a))
+        print('x = {0}'.format(x))
+
+        if x == 1 or x == n - 1:
+            continue
+
+        for j in range(1, r):
+            x = fast_pow(x, 2, n)
+            #if x != 0:print('x = {0}'.format(x))
+            if x == 1:return [False, text,[d,r]]
+            if x == n - 1:return [True,text,[d,r]]
+        return [False,text,[d,r]]
+    return [True,text,[d,r]]
+

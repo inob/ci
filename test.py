@@ -19,38 +19,35 @@ def test_Rabin_Miller(n, k):
         return False
 
     d = n - 1
-    s = 0
+    r = 0
     while d % 2 == 0:
         d //= 2
-        s += 1
+        r += 1
     print('d = {0}'.format(d))
-    print('s = {0}'.format(s))
+    print('s = {0}'.format(r))
     print('---'*20)
 
     for i in range(k):
-        a = random.randint(2, n - 2)
-        x = fast_pow(a, d, n)
+        a = random.randint(2, int(n/2))
+        x = pow(a, d, n)
         print('a = {0}'.format(a))
         print('x = {0}'.format(x))
 
         if x == 1 or x == n - 1:
             continue
 
-        for j in range(1, s):
+        for j in range(1, r):
             x = fast_pow(x, 2, n)
-            print('x = {0}'.format(x))
-
-            if x == 1:
-                return False
-            if x == n - 1:
-                return True
+            #if x != 0:print('x = {0}'.format(x))
+            if x == 1:return False
+            if x == n - 1:return True
         return False
     return True
 
 
 n, k = int(input("Введите n: ")), int(input("Введите k: "))
-print("Время: {0}".format(timeit.timeit("test_Rabin_Miller({0}, {1})".format(n, k), setup="from __main__ import test_Rabin_Miller", number=1)) + " sec.")
 result = test_Rabin_Miller(n, k)
+
 if result == True:
     print("Число {0} вероятно простое".format(n))
 else:
