@@ -108,6 +108,7 @@ class Ferma(QDialog):
     def answer(self):
         n = int(self.lineEdit.text())
         a = int(self.lineEdit_2.text())
+        cc = (a**(n-1))%n
         if gcd(n,a)==1 and n>=2 and a >= 2:
             n-=1
             x = [int(x) for x in primfacs(n)]
@@ -121,7 +122,7 @@ class Ferma(QDialog):
 
                 self.label_5.setWordWrap(True)
             else:
-                self.label_5.setText(f"""<p> {a}<sup>{n}</sup> &equiv; {num} &ne; 1(mod {n+1})</p>
+                self.label_5.setText(f"""<p> {a}<sup>{n}</sup> &equiv; {num} &equiv; {cc}(mod {n+1}) &ne; 1(mod {n+1})</p>
                                          <p> Число {n+1} - <b>составное.</b>""")
                 self.label_5.setWordWrap(True)
         else:
