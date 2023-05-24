@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QDialog, QApplication
 from PyQt5.uic import loadUi
 import requests
 from bs4 import BeautifulSoup
-from util import read_text, primfacs, is_prime, get_uneven
+from util import read_text, primfacs, is_prime, get_uneven, get_miller
 from PyQt5.QtWidgets import * 
 from PyQt5.QtGui import *
 from PyQt5 import QtCore
@@ -74,6 +74,14 @@ class Ferma(QDialog):
         self.pushButton.clicked.connect(self.answer)
         self.pushButtonDaOno.clicked.connect(self.generated_num)
         self.checkAns.clicked.connect(self.check)
+        self.buttonBack.clicked.connect(self.goBack)
+
+    def goBack(self):
+        choosee = Choose()
+        widget.addWidget(choosee)
+        widget.setCurrentIndex(widget.currentIndex()+1)
+        widget.setFixedWidth(600)
+        widget.setFixedHeight(700)
 
     def generated_num(self):
         num = get_uneven(50,270)
@@ -133,6 +141,14 @@ class SV(QDialog):
         self.reshit.clicked.connect(self.solve)
         self.ButtonGenerated.clicked.connect(self.GenerateValue)
         self.check_shtrassen.clicked.connect(self.checkValue)
+        self.buttonBack.clicked.connect(self.goBack)
+
+    def goBack(self):
+        choosee = Choose()
+        widget.addWidget(choosee)
+        widget.setCurrentIndex(widget.currentIndex()+1)
+        widget.setFixedWidth(600)
+        widget.setFixedHeight(700)
 
     def solve(self): pass
 
@@ -153,8 +169,18 @@ class Miller(QDialog):
         self.reshit.clicked.connect(self.solve)
         self.ButtonGenerated.clicked.connect(self.GenerateValue)
         self.check_shtrassen.clicked.connect(self.checkValue)
+        self.buttonBack.clicked.connect(self.goBack)
 
-    def solve(self): pass
+    def goBack(self):
+        choosee = Choose()
+        widget.addWidget(choosee)
+        widget.setCurrentIndex(widget.currentIndex()+1)
+        widget.setFixedWidth(600)
+        widget.setFixedHeight(700)
+
+
+    def solve(self):
+        get_miller(81)
 
     def GenerateValue(self): pass
 
@@ -190,7 +216,7 @@ app=QApplication(sys.argv)
 mainwindow=Login()
 widget=QtWidgets.QStackedWidget()
 widget.addWidget(mainwindow)
-widget.setFixedWidth(960)
-widget.setFixedHeight(620)
+widget.setFixedWidth(600)
+widget.setFixedHeight(700)
 widget.show()
 app.exec_()  

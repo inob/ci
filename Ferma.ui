@@ -19,11 +19,11 @@
      <x>10</x>
      <y>10</y>
      <width>671</width>
-     <height>711</height>
+     <height>681</height>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -35,7 +35,7 @@
        <x>0</x>
        <y>10</y>
        <width>661</width>
-       <height>661</height>
+       <height>631</height>
       </rect>
      </property>
      <property name="widgetResizable">
@@ -47,7 +47,7 @@
         <x>0</x>
         <y>0</y>
         <width>657</width>
-        <height>657</height>
+        <height>627</height>
        </rect>
       </property>
      </widget>
@@ -486,6 +486,25 @@
      </widget>
     </widget>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="buttonBack">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>700</y>
+     <width>191</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Вернуться к выбору темы</string>
+   </property>
   </widget>
  </widget>
  <resources/>

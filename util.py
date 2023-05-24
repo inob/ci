@@ -165,3 +165,15 @@ def get_uneven(x,y):
     else: 
         num+=1
         return num
+    
+def get_miller(x):
+    num = x - 1
+    facs = primfacs(num)
+    temp = set(facs)
+    got = { i:facs.count(i) for i in temp}
+    print(got)
+    mini = 10001
+    for i in got:
+        print(i)
+        if int(i)**got[i] < mini : mini = int(i)
+    print(mini)
