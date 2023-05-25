@@ -92,7 +92,7 @@
      <x>20</x>
      <y>150</y>
      <width>420</width>
-     <height>540</height>
+     <height>511</height>
     </rect>
    </property>
    <property name="font">
@@ -109,7 +109,7 @@
       <x>0</x>
       <y>0</y>
       <width>416</width>
-      <height>536</height>
+      <height>507</height>
      </rect>
     </property>
     <widget class="QLabel" name="label_2">
@@ -131,6 +131,19 @@
      </property>
     </widget>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>660</y>
+     <width>88</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Выйти</string>
+   </property>
   </widget>
  </widget>
  <resources/>

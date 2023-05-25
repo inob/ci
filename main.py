@@ -17,6 +17,14 @@ class Maestro(QDialog):
         widget.setFixedWidth(470)
         widget.setFixedHeight(700)
         self.pushButton.clicked.connect(self.getStudent)
+        self.pushButton_2.clicked.connect(self.exit)
+
+    def exit(self):
+        login = Login()
+        widget.addWidget(login)
+        widget.setFixedWidth(600)
+        widget.setFixedHeight(700)
+        widget.setCurrentIndex(widget.currentIndex()+1)
 
     def getStudent(self):
         what = self.comboBox.currentText()
