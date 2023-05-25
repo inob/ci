@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from util import read_text, primfacs, is_prime, get_uneven, test_Rabin_Miller, s_s, get_prime_number_in_range
 from PyQt5.QtWidgets import * 
 from PyQt5.QtGui import *
-from PyQt5 import QtCore
+from PyQt5 import QtGui
 from math import gcd
 
 class Maestro(QDialog):
@@ -60,6 +60,8 @@ class Login(QDialog):
     def __init__(self):
         super(Login,self).__init__()
         loadUi("Login.ui",self)
+        self.password 
+        self.password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.auth.clicked.connect(self.loginF)
         self.pushButton_3.clicked.connect(self.gotocreate)
     
@@ -232,9 +234,9 @@ class Ferma(QDialog):
         a = int(self.chisloA.text())
         cc = (a**(p-1))%p
         if  answ == cc:
-            self.result.setText("Верно")
+            self.result.setText("Верно.")
         else:
-            self.result.setText("Неверно")
+            self.result.setText("Неверно.")
 
         
 
@@ -423,5 +425,6 @@ widget=QtWidgets.QStackedWidget()
 widget.addWidget(mainwindow)
 widget.setFixedWidth(600)
 widget.setFixedHeight(700)
+widget.setWindowTitle("CryptoCifra")
 widget.show()
 app.exec_()  
