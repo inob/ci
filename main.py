@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QDialog, QApplication
 from PyQt5.uic import loadUi
 import requests
 from bs4 import BeautifulSoup
-from util import read_text, primfacs, is_prime, get_uneven, get_miller, test_Rabin_Miller, s_s
+from util import read_text, primfacs, is_prime, get_uneven, test_Rabin_Miller, s_s, get_prime_number_in_range
 from PyQt5.QtWidgets import * 
 from PyQt5.QtGui import *
 from PyQt5 import QtCore
@@ -62,10 +62,14 @@ class Login(QDialog):
             page = requests.post('http://127.0.0.1/Mem/safe.php', data={'login':login, 'password':password})
             soup = BeautifulSoup(page.content, "html5lib")
             print(soup.text)
+            global UserName
+            UserName = login
+            print(UserName)
             self.label.setText(soup.text)
             if "Maestro" in soup.text:
                 self.gotoMaestro()
             if "good" in soup.text:
+                
                 self.gotoChoose()
 
     def gotoMaestro(self):
@@ -84,6 +88,7 @@ class Login(QDialog):
         widget.addWidget(choosee)
         widget.setCurrentIndex(widget.currentIndex()+1)
 
+
 class Choose(QDialog):
     def __init__(self):
         super(Choose,self).__init__()
@@ -91,7 +96,13 @@ class Choose(QDialog):
         self.buttonFerma.clicked.connect(self.goFerma)
         self.buttonSV.clicked.connect(self.goSV)
         self.buttonMillera.clicked.connect(self.goMR)
+        self.ktest.clicked.connect(self.goTest)
     
+    def goTest(self):
+        test = k_test()
+        widget.addWidget(test)
+        widget.setCurrentIndex(widget.currentIndex()+1)
+
     def goSV(self):
         s_shtrassena = SV()
         widget.addWidget(s_shtrassena)
@@ -106,6 +117,67 @@ class Choose(QDialog):
         ferma = Ferma()
         widget.addWidget(ferma)
         widget.setCurrentIndex(widget.currentIndex()+1)
+
+class k_test(QDialog):
+    def __init__(self):
+        super(k_test,self).__init__()
+        loadUi("ktest.ui",self)
+        widget.setFixedWidth(707)
+        widget.setFixedHeight(735)
+        print(UserName)
+        self.label.setText(UserName)
+        self.pushButton.clicked.connect(self.generate)
+        self.pushButton_2.clicked.connect(self.complete)
+        self.pushButton_3.clicked.connect(self.goBack)
+    
+    def goBack(self):
+        choosee = Choose()
+        widget.addWidget(choosee)
+        widget.setCurrentIndex(widget.currentIndex()+1)
+        widget.setFixedWidth(600)
+        widget.setFixedHeight(700)
+
+    def complete(self):
+        itog = 0
+        if self.radioButton.isChecked(): itog+=1
+        if self.radioButton_7.isChecked(): itog+=1
+        if self.radioButton_3.isChecked(): itog+=1
+        if self.lineEdit_3.text() == "1": itog+=1
+
+        p = int(self.dannie_4.text())
+        a = int(self.dannie_5.text())
+        nod, jac, ans, otvet = s_s(p,a)
+
+        if str(jac) == self.lineEdit_2.text(): itog+=1
+
+        x = int(self.dannie_9.text())
+        ls = max(primfacs(x))
+        if str(ls) == self.lineEdit_8.text(): itog+=1
+
+        print(f"{itog}/6")
+        self.goBack()
+
+
+    def generate(self):
+        num = get_uneven(50,270)
+        numA = 2
+        self.dannie_4.setText(str(num))
+        for i in range(3, num):
+            if gcd(i, num) == 1:
+                self.dannie_5.setText(str(i))
+                numA = i
+                break
+        
+
+        prime1, prime2, prime3, prime4 = get_prime_number_in_range(2100, 39999),get_prime_number_in_range(3000, 40000), get_prime_number_in_range(3000, 4000),get_prime_number_in_range(3000, 40000)
+        self.dannie.setText(str(prime1))
+        self.dannie_10.setText(str(prime2))
+        self.dannie_6.setText(str(prime3))
+        self.dannie_8.setText(str(prime4))
+        self.dannie_7.setText("4")
+        temp = get_uneven(1001,1400)
+        self.dannie_9.setText(str(temp))
+
 
 class Ferma(QDialog):
     def __init__(self):
@@ -328,8 +400,6 @@ class Registr(QDialog):
             print(soup.text)
             if soup.text: self.authBack() 
             else: self.label_5.setText("Регистрация не прошла !")
-
-
 
 
 app=QApplication(sys.argv)

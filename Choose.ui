@@ -142,6 +142,24 @@
     <string>CriptoCifra</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="ktest">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>620</y>
+     <width>491</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Контрольный тест</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
