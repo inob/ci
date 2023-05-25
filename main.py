@@ -10,6 +10,44 @@ from PyQt5.QtGui import *
 from PyQt5 import QtCore
 from math import gcd
 
+class Maestro(QDialog):
+    def __init__(self):
+        super(Maestro,self).__init__()
+        loadUi("maestro.ui",self)
+        widget.setFixedWidth(470)
+        widget.setFixedHeight(700)
+        self.pushButton.clicked.connect(self.getStudent)
+
+    def getStudent(self):
+        what = self.comboBox.currentText()
+        whoo = self.lineEdit.text()
+        print(what)
+        print(whoo)
+        out = ""
+        if "туде" in what:
+            print("Ст")
+            page = requests.post('http://127.0.0.1/Mem/getGroup.php', data={'what':"student", 'whoo':whoo})
+            soup = BeautifulSoup(page.content, "html5lib")
+            print(soup.text)
+            #self.label_2.setText(soup.text)
+
+            label_text = QLabel(soup.text)
+            label_text.setWordWrap(True)
+            self.scrollArea.setWidget(label_text)
+
+        elif "пп" in what:
+            print("пп")
+            page = requests.post('http://127.0.0.1/Mem/getGroup.php', data={'what':"group", 'whoo':whoo})
+            soup = BeautifulSoup(page.content, "html5lib")
+            print(soup.text)
+            stud = soup.text.split("|")
+            out+=f"Количество оценок по группе: {len(stud)-1}\n\n"
+            for i in stud:
+                out+= f"{i}\n"
+            label_text = QLabel(out)
+            label_text.setWordWrap(True)
+            self.scrollArea.setWidget(label_text)
+        
 class Login(QDialog):
     def __init__(self):
         super(Login,self).__init__()
@@ -25,8 +63,16 @@ class Login(QDialog):
             soup = BeautifulSoup(page.content, "html5lib")
             print(soup.text)
             self.label.setText(soup.text)
+            if "Maestro" in soup.text:
+                self.gotoMaestro()
             if "good" in soup.text:
                 self.gotoChoose()
+
+    def gotoMaestro(self):
+        maest = Maestro()
+        widget.addWidget(maest)
+        widget.setCurrentIndex(widget.currentIndex()+1)
+        
 
     def gotocreate(self):
         createacc = Registr()
