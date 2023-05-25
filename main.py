@@ -63,13 +63,15 @@ class Login(QDialog):
             soup = BeautifulSoup(page.content, "html5lib")
             print(soup.text)
             global UserName
+            global UserGroup
             UserName = login
             print(UserName)
             self.label.setText(soup.text)
             if "Maestro" in soup.text:
                 self.gotoMaestro()
-            if "good" in soup.text:
-                
+            if "-" in soup.text:
+                UserGroup = soup.text
+                print(UserGroup)
                 self.gotoChoose()
 
     def gotoMaestro(self):
@@ -155,6 +157,11 @@ class k_test(QDialog):
         if str(ls) == self.lineEdit_8.text(): itog+=1
 
         print(f"{itog}/6")
+        grade = round((10/6)*itog)
+        page = requests.post('http://127.0.0.1/Mem/grade.php', data={'person':UserName, 'grade':grade, 'group':UserGroup})
+        soup = BeautifulSoup(page.content, "html5lib")
+        print(soup.text)
+        
         self.goBack()
 
 
